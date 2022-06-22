@@ -83,13 +83,31 @@ func SignValidator(validatorAgent, msg, privateKey string) (string, error) {
 	return SignHash(bytes, privateKey)
 }
 
+func loadPrivateKey() (privateKey string) {
+	args := os.Args[1:]
+	if len(args) > 3 {
+		privateKey = args[2]
+	}
+
+	envPrivateKey := os.Getenv("PRIVATE_KEY")
+	if len(envPrivateKey) > 0 {
+		privateKey = envPrivateKey
+	}
+
+	if len(privateKey) == 0 {
+		panic("must need privateKey")
+	}
+
+	return
+}
+
 func main() {
 	// Remove executable name from arguments
 	args := os.Args[1:]
-
 	validatorAgentAddr := args[0]
 	msg := args[1]
-	privateKey := args[2]
+
+	privateKey := loadPrivateKey()
 
 	if result, err := SignValidator(validatorAgentAddr, msg, privateKey); err != nil {
 		panic(err)
