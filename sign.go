@@ -102,7 +102,7 @@ func loadPrivateKey() (privateKey string) {
 }
 
 func main() {
-	// Remove executable name from arguments
+	// remove executable name from arguments
 	args := os.Args[1:]
 	validatorAgentAddr := args[0]
 	msg := args[1]
