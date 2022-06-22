@@ -24,14 +24,14 @@ func strip0x(s string) string {
 
 func Sign(hash []byte, privateKey string) (string, error) {
 	var key *ecdsa.PrivateKey
-	var bytes []byte
+	var byteArr []byte
 
 	if b, err := hex.DecodeString(strip0x(privateKey)); err != nil {
 		return "", err
 	} else {
-		bytes = b
+		byteArr = b
 	}
-	if pk, err := crypto.ToECDSA(bytes); err != nil {
+	if pk, err := crypto.ToECDSA(byteArr); err != nil {
 		return "", err
 	} else {
 		key = pk
@@ -39,6 +39,8 @@ func Sign(hash []byte, privateKey string) (string, error) {
 	if sig, err := crypto.Sign(hash, key); err != nil {
 		return "", err
 	} else {
+		// link https://eips.ethereum.org/EIPS/eip-155
+		sig[64] = uint8(int(sig[64])) + 27
 		return "0x" + hex.EncodeToString(sig), nil
 	}
 }
@@ -92,7 +94,7 @@ func main() {
 	if result, err := SignValidator(validatorAgentAddr, msg, privateKey); err != nil {
 		panic(err)
 	} else {
-		if _, err := fmt.Fprintf(os.Stdout, "%v", result); err != nil {
+		if _, err := fmt.Fprintf(os.Stdout, "%v\n", result); err != nil {
 			panic(err)
 		}
 	}
