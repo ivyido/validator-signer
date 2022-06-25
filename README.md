@@ -4,7 +4,7 @@ Sign msg by signer to appoint a address to participate the Validator Round of IV
 
 # Download the Executables
 
-you can download the executables by click [here](https://github.com/ivyido/validator-signer/releases/tag/v1.0.0)
+You can download the executables by clicking [here](https://github.com/ivyido/validator-signer/releases/tag/v1.0.0)
 
 # Build the source
 
